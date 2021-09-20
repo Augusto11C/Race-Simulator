@@ -97,8 +97,8 @@ async function handleCreateRace() {
 
 
 		// update the store with the race id
-		// newRaceId= race.ID - 1;
-		updateStore(store,{ race_id : parseInt(race.ID)-1})
+		newRaceId= race.ID - 1;
+		updateStore(store,{ race_id : newRaceId})
 
 		// The race has been created, now start the countdown
 		// call the async function runCountdown
@@ -122,6 +122,7 @@ function runRace(raceID) {
 		const raceInterval = setInterval(async () => {
 
 			try {
+				
 				const race = await getRace(raceID);
 
 				// if the race info status property is 'in-progress', update the leaderboard by calling
@@ -132,7 +133,7 @@ function runRace(raceID) {
 
 				} else if (race.status === 'finished') { 	// if the race info status property is 'finished', run the following: 
 					console.log('RACE FINISHED')
-
+					
 					clearInterval(raceInterval);
 					renderAt('#race', resultsView(race.positions));
 					resolve(race);
@@ -151,6 +152,7 @@ async function runCountdown() {
 		await delay(1000)
 		let timer = 3
 
+		// Enabling gas peddel
 		document.getElementById("gas-peddle").disabled = true;
 
 		return new Promise(resolve => {
@@ -166,13 +168,15 @@ async function runCountdown() {
 				if (timer <= 0) {
 					clearInterval(idCountDown);
 					resolve("done");
+					
+					// Turning of gas peddel after race is finished
 					document.getElementById("gas-peddle").disabled = false;
 				}
 			}, 1000);
 
 		});
 	} catch (error) {
-		console.log(error);
+		console.log(`Error in runCountdown ${error.message}`);
 	}
 }
 
