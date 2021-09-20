@@ -378,16 +378,18 @@ function defaultFetchOpts() {
 
 function getTracks() {
 	// GET request to `${SERVER}/api/tracks`
+	
 	return fetch(`${SERVER}/api/tracks`)
 	.then(response => response.json())
-		.catch(error => console.error(`Error while fecthing the tracks: ${error.message}`));
+		.catch(error => console.error(`error while fecthing the tracks: ${error.message}`));
 }
 
 async function getRacers() {
 	// GET request to `${SERVER}/api/cars`
+
 	return await fetch(`${SERVER}/api/cars`)
 	.then(response => response.json())
-		.catch(error => console.error(`Error while fetching cars: ${error.message}`));
+		.catch(error => console.error(`error while fetching cars: ${error.message}`));
 }
 
 function createRace(player_id, track_id) {
@@ -406,14 +408,14 @@ function createRace(player_id, track_id) {
 		.then(race => {
 			console.log(`A new race was created; id: ${race.ID}`); return race
 		})
-		.catch(err => console.log("Problem with createRace request::", err))
+		.catch(err => console.log("error in createRace api:", err))
 }
 
 function getRace(id) {
 	return fetch(`${SERVER}/api/races/${id}`)
 		.then(res => res.json())
-		//.then(race => { console.log(race); return race})
-		.catch(err => console.log(`getRace - Error: ${err}`))
+		.then(race => { console.log(race); return race})
+		.catch(err => console.log(`error in getRace api: ${err}`))
 }
 
 async function startRace(id) {
@@ -421,7 +423,7 @@ async function startRace(id) {
 		method: 'POST',
 		...defaultFetchOpts(),
 	})
-		.catch(err => console.log("Problem with startRace request::", err))
+		.catch(err => console.log("error in startRace api:", err))
 }
 
 function accelerate(id) {
@@ -433,5 +435,5 @@ function accelerate(id) {
 		method: 'POST',
 		...defaultFetchOpts(),
 	})
-		.catch(err => console.log("Problem with accelerate::", err))
+		.catch(err => console.log("error in accelerate api:", err))
 }
